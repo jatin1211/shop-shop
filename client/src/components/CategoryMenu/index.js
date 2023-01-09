@@ -4,7 +4,7 @@ import { QUERY_CATEGORIES } from '../../utils/queries';
 import { useStoreContext } from "../../utils/GlobalState";
 import { UPDATE_CATEGORIES, UPDATE_CURRENT_CATEGORY } from '../../utils/actions';
 
-function CategoryMenu({ setCategory }) {
+function CategoryMenu() {
 
   const [state, dispatch] = useStoreContext();
   const { categories } = state;
@@ -21,20 +21,27 @@ function CategoryMenu({ setCategory }) {
     }
   }, [categoryData, dispatch]);
 
+  const handleClick = id => {
+    dispatch({
+      type: UPDATE_CURRENT_CATEGORY,
+      currentCategory: id
+    });
+  };
+
   return (
     <div>
-      <h2>Choose a Category:</h2>
-      {categories.map((item) => (
-        <button
-          key={item._id}
-          onClick={() => {
-            setCategory(item._id);
-          }}
-        >
-          {item.name}
-        </button>
-      ))}
-    </div>
+    <h2>Choose a Category:</h2>
+    {categories.map(item => (
+      <button
+        key={item._id}
+        onClick={() => {
+          handleClick(item._id);
+        }}
+      >
+        {item.name}
+      </button>
+    ))}
+  </div>
   );
 }
 
